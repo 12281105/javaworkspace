@@ -1,0 +1,11 @@
+1 2 3 4 5 6 7 8
+1-2:JBCCClient initializeClient NULL String@host;String@path
+2-3:JBCCClient openSyncConnection JBCCResult NULL
+3-4:JBCCClient createABC List<JBCCResult> String@ABCName;Map<String,String>@tableDef
+3-5:JBCCClient createTBC List<JBCCResult> String@TBCName;Map<String,String>@tableDef
+4-6:JBCCClient finsertToBC List<JBCCResult> Map<String,Object>@transact;String@BCName
+4-7:JBCCClient fastSelectFromBC JBCCResult String@BCName;String@condition
+5-6:JBCCClient finsertToBC List<JBCCResult> Map<String,Object>@transact;String@BCName
+6-7:JBCCClient fastSelectFromBC JBCCResult String@BCName;String@condition
+6-8:JBCCClient closeSyncConnection JBCCResult NULL
+7-8:JBCCClient closeSyncConnection JBCCResult NULL

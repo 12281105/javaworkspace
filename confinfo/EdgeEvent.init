@@ -1,0 +1,19 @@
+1:JBCCClient 1 getInstance JBCCClient NULL
+2:JBCCClient 0 initializeClient NULL String@hostname;String@path
+3:JBCCClient 0 openSyncConnection JBCCResult NULL
+4:JBCCClient 0 openAsyncConnection JBCCResult int@max_client;int@max_client_per_thread
+5:JBCCClient 0 createABC List<JBCCResult> String@ABCName;Map<String,String>@tableDef
+6:JBCCClient 0 createTBC List<JBCCResult> String@TBCName;Map<String,String>@tableDef
+7:JBCCClient 0 createABC List<JBCCResult> String@ABCName;Map<String,String>@tableDef
+8:JBCCClient 0 createTBC List<JBCCResult> String@TBCName;Map<String,String>@tableDef
+9:JBCCClient 0 finsertToBC List<JBCCResult> Map<String,Object>@transact;String@BCName
+10:JBCCClient 0 fastSelectFromTransaction JBCCResult  String@BCName;String@condition
+11:JBCCClient 0 closeSyncConnection JBCCResult NULL
+12:JBCCClient 0 asyncMultiInsertToBC NULL List<Map<String,Object>>@transactlist;String@BCName;ArrayList<JBCCResult>@results;int@delay
+13:JBCCClient 0 asyncSelectFromBC JBCCResult String@TBCName;String@condition;ArrayList<JBCCResult>@results
+14:JBCCClient 0
+
+
+private void asyncSelectFromBC (String TBCName, String condition, ArrayList<JBCCResult> results)
+public void asyncMultiInsertToBC(List<Map<String, Object>> transactlist, String BCName, ArrayList<JBCCResult> results, int delay)
+public JBCCResult closeAsyncConnection()
