@@ -1,9 +1,16 @@
 package com.zhangchi.java;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * 邻接链表（Adjacency List）实现的有向图
@@ -91,7 +98,6 @@ public class ListDGraph<V> implements DGraph<V>{
             return ret;
         }
     }
-    
 
     /**
      * 广度优先的迭代器
@@ -240,6 +246,15 @@ public class ListDGraph<V> implements DGraph<V>{
         }
         return ret;
     }
+    
+    public int getIndex(V vtx){
+    	for (VE ve : mVEList) {
+			if(ve.v.equals(vtx)){
+				return mVEList.indexOf(ve);
+			}
+		}
+    	return -1;
+    }
 
     @Override
     public Edge<V> get(int src, int dest) {
@@ -281,7 +296,7 @@ public class ListDGraph<V> implements DGraph<V>{
      * @param v
      * @return
      */
-    private VE getVE(V v) {
+    public VE getVE(V v) {
         VE ret = null;
         if(v != null) {
             for(VE ve : mVEList) {
@@ -300,7 +315,7 @@ public class ListDGraph<V> implements DGraph<V>{
      * @param v
      * @return 删除的顶点对象
      */
-    private VE removeVE(V v) {
+    public VE removeVE(V v) {
         VE ret = null;
         if(v != null) {
             for(VE ve : mVEList) {
@@ -314,6 +329,125 @@ public class ListDGraph<V> implements DGraph<V>{
         }
         return ret;
     }
+    
+    private Edge<V> get_min_Edge(VE ve){
+    	int min_edgenum = Integer.MAX_VALUE;
+    	Edge<V> min_edge = null;
+    	for (Edge<V> edge : ve.mEdgeList) {
+			if(edge.getEventnum()<min_edgenum){
+				min_edgenum = edge.getEventnum();
+				min_edge = edge;
+			}
+		}
+    	return min_edge;
+    }
+    
+    //检测有向图中环的个数
+    public void checkCircles(LinkedList<LinkedList<V>> circle){
+    	boolean[] instack = new boolean[mVEList.size()]; //已经访问的数组
+    	int[] stack = new int[mVEList.size()];
+    	int top=-1;
+    	int count = 0;
+    	DFS_CheckCircle(0,top,instack,stack,circle,count);
+    }
+    
+    private void DFS_CheckCircle(int x, int top, boolean[] instack, int[] stack, LinkedList<LinkedList<V>> circle,int count) {
+		// TODO Auto-generated method stub
+        stack[++top]=x;  
+        instack[x]=true;
+        VE ve = getVE(get(x));
+        for (int i=0;i<ve.mEdgeList.size();i++)  
+        {
+        	//System.out.println("num:"+ve.mEdgeList.get(i).getDest());
+        	int index = getIndex(ve.mEdgeList.get(i).getDest());
+            if (!instack[index])  
+            {
+            	DFS_CheckCircle(index,top,instack,stack,circle,count);  
+            }  
+            else //条件成立，表示下标为x的顶点到 下标为i的顶点有环  
+            {  
+                //从i到x是一个环，top的位置是x，下标为i的顶点在栈中的位置要寻找一下  
+                //寻找起始顶点下标在栈中的位置
+            	count++;
+            	LinkedList<V> circlepath = new LinkedList<V>();
+                int t=0;  
+                for (t=top;stack[t]!=index;t--);  
+                //输出环中顶点  
+                for (int j=t;j<=top;j++)  
+                {
+                	circlepath.add(get(stack[j]));
+                	//System.out.println("index:"+index+"--->"+stack[j]+"=="+get(stack[j]));
+                }
+                //System.out.println("circle"+count+":"+circlepath.toString());
+                circle.add(circlepath);
+            }  
+        }  
+        //处理完结点后，退栈  
+        top--;  
+        instack[x]=false;  
+	}
+    
+    
+    public LinkedList<LinkedList<V>> DFS_ALL_LOOP_Travel(V root){
+    	VE rootVE = getVE(root);
+		Stack<Edge<V>> mstack = new Stack<>();
+		mstack.push(get_min_Edge(rootVE));
+		while (true) {
+			while (true) {
+				Edge<V> topEdge = mstack.peek(); //栈顶的边对象
+				VE topVE = getVE(topEdge.getDest()); //找栈顶边对象的下一个可访问边
+				
+				//回溯有两种情况：
+				//(1)栈中某个边被访问的次数超过了3次（>3），回溯两步，弹出栈顶2次
+				//(2)访问到达路径的终点，回溯一步，弹出栈顶1次
+				
+				if(topVE.mEdgeList.size()==0){
+					//第一种情况下的回溯
+					
+				}
+				
+				//可访问边的访问优先级：
+				//(1)未访问边（访问次数为0）的优先级最高（按边的编号从小到大访问）
+				//(2)访问次数少的边优先级较高（按访问次数从小到大访问）
+				
+				//统计栈中各条边被访问的次数,按访问次数进行排序
+				Map<Edge<V>, Integer> countMap = new HashMap<>();
+				Iterator<Edge<V>> iterator = mstack.iterator();
+				while (iterator.hasNext()) {
+					Edge<V> edge = (Edge<V>) iterator.next();
+					if(countMap.containsKey(edge)){
+						countMap.put(edge, countMap.get(edge)+1);
+					}
+					else{
+						countMap.put(edge, 1);
+					}
+				}
+				
+				for (Edge<V> edge : topVE.mEdgeList) {
+					if(countMap.containsKey(edge)){
+						
+					}
+					else {
+						countMap.put(edge, 0);
+					}
+				}
+				
+				//对访问边进行排序，访问次数从小到大，边的编号从小到大
+				List<Map.Entry<Edge<V>, Integer>> countEntryList = new ArrayList<>(countMap.entrySet());
+				Collections.sort(countEntryList, new Comparator<Map.Entry<Edge<V>, Integer>>() {
+
+					@Override
+					public int compare(Entry<Edge<V>, Integer> o1, Entry<Edge<V>, Integer> o2) {
+						// TODO Auto-generated method stub
+						return (o1.getValue()-o2.getValue()==0)?(o1.getKey().getEventnum()-o2.getKey().getEventnum()):(o1.getValue()-o2.getValue());
+					}				
+				});
+			}
+			 
+			
+		}
+	}
+	
     
     /**
      * 删除以某个点作为重点的边
@@ -348,4 +482,10 @@ public class ListDGraph<V> implements DGraph<V>{
         
         return ret;
     }
+
+	@Override
+	public LinkedList<V> DFS_ALL_LOOP_Travel(V root) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

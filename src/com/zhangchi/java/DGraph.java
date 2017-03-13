@@ -1,6 +1,8 @@
 package com.zhangchi.java;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * 有向图接口，定义需要实现的各个方法，可以选择使用邻接矩阵或者邻接链表来实现
@@ -62,6 +64,10 @@ public interface DGraph<V> {
      * @return
      */
     public Iterator<V> iterator(int type, V root);
+    
+    public LinkedList<LinkedList<V>> DFS_ALL_LOOP_Travel(V root);
+    
+    public void checkCircles(LinkedList<LinkedList<V>> circle);
     
     /**
      * 将图转换为无环图

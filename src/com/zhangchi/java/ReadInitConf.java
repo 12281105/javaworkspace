@@ -106,7 +106,7 @@ public class ReadInitConf implements ReadInit{
 		//事件调用者；事件名；事件返回值；事件输入参数
 		TriggerEvent triggerEvent = new TriggerEvent(events[0], events[1], events[2], inputlist);
 		
-		edgeobj = new Edge<String>(vetx[0], vetx[1], triggerEvent);	
+		edgeobj = new Edge<String>(vetx[0], vetx[1],triggerEvent);	
 		
 		return edgeobj;
 	}

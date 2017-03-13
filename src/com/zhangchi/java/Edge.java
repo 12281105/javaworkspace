@@ -10,15 +10,18 @@ public class Edge<V> {
     /**终点*/
     private V dest;
     /**权值*/
-    private TriggerEvent triggerEvent;
+    
+    private TriggerEvent triggerEvent; //触发事件
+    
+    private int eventnum;
     
     /**
      * 不带权值的一条边
      * @param src
      * @param dest
      */
-    public Edge(V src, V dest) {
-        this(src, dest, null);
+    public Edge(V src, V dest,int eventnum) {
+        this(src, dest, eventnum,null);
     }
     
     /**
@@ -27,9 +30,10 @@ public class Edge<V> {
      * @param dest
      * @param weight
      */
-    public Edge(V src, V dest, TriggerEvent triggerEvent) {
+    public Edge(V src, V dest, int eventnum,TriggerEvent triggerEvent) {
         this.src = src;
         this.dest = dest;
+        this.eventnum = eventnum;
         this.triggerEvent = triggerEvent;
     }
     
@@ -47,6 +51,10 @@ public class Edge<V> {
      */
     public V getDest() {
         return this.dest;
+    }
+    
+    public int getEventnum(){
+    	return this.eventnum;
     }
     
     /**
