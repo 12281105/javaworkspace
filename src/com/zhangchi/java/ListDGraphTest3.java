@@ -1,20 +1,16 @@
 package com.zhangchi.java;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ListDGraphTest2 {
+public class ListDGraphTest3 {
 
     DGraph<String> mDG = new ListDGraph<String>();
     
@@ -48,8 +44,11 @@ public class ListDGraphTest2 {
         mDG.add(new Edge<String>("2", "3",2));
         mDG.add(new Edge<String>("3", "4",3));
         mDG.add(new Edge<String>("3", "2",4));
-        mDG.add(new Edge<String>("3", "1",5));
-        mDG.add(new Edge<String>("1", "3",6));
+        mDG.add(new Edge<String>("1", "3",5));
+        //mDG.add(new Edge<String>("1", "3",6));
+        //mDG.add(new Edge<String>("3", "2",6));
+        //mDG.add(new Edge<String>("3", "3",7));
+        //mDG.add(new Edge<String>("4", "4",8));
         /*
         mDG.add(new Edge<String>("4", "6",6));
         mDG.add(new Edge<String>("4", "7",7));
@@ -61,36 +60,23 @@ public class ListDGraphTest2 {
         mDG.add(new Edge<String>("7", "6",13));
         mDG.add(new Edge<String>("7", "8",14));
         */
+        /*
+        LinkedList<LinkedList<String>> circle = new LinkedList<LinkedList<String>>();
     	
-        LinkedList<LinkedList<Edge<String>>> edgeList = mDG.checkCircles();
+        mDG.checkCircles(circle);
         
-        /*
-        LinkedList<Edge<String>> tempEdgecircle = new LinkedList<Edge<String>>();
-        
-        tempEdgecircle.add(mDG.get(1, 2));
-        tempEdgecircle.add(mDG.get(2, 1));
-        
-        edgeList.add(tempEdgecircle);
-        */
-        
-        for(LinkedList<Edge<String>> pathList : edgeList){
-        	for (Edge<String> edge : pathList) {
-				System.out.print(edge.getEventnum()+" ");
-			}
-        	System.out.println();
+        for(LinkedList<String> pathList : circle){
+        	System.out.println(pathList.toString());
         }
-        
-        /*
-        HashSet<LinkedList<Edge<String>>> edgeSet = new HashSet<LinkedList<Edge<String>>>(edgeList);
-        System.out.println();
-        
-        for (LinkedList<Edge<String>> linkedList : edgeSet) {
-        	for (Edge<String> edge : linkedList) {
+        */
+        LinkedList<LinkedList<Edge<String>>> result = mDG.DFS_ALL_LOOP_Travel("1");
+        for (LinkedList<Edge<String>> linkedList : result) {
+			for (Edge<String> edge : linkedList) {
 				System.out.print(edge.getEventnum()+" ");
 			}
-        	System.out.println();
+			System.out.println();
 		}
-		*/
+        
     }
     
 }

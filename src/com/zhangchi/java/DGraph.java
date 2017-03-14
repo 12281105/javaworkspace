@@ -65,9 +65,9 @@ public interface DGraph<V> {
      */
     public Iterator<V> iterator(int type, V root);
     
-    public LinkedList<LinkedList<V>> DFS_ALL_LOOP_Travel(V root);
+    public LinkedList<LinkedList<Edge<V>>> DFS_ALL_LOOP_Travel(V root);
     
-    public void checkCircles(LinkedList<LinkedList<V>> circle);
+    public LinkedList<LinkedList<Edge<V>>> checkCircles();
     
     /**
      * 将图转换为无环图

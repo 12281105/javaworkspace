@@ -1,6 +1,7 @@
 package com.zhangchi.java;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,6 +48,14 @@ public class ListDGraphTest {
     	System.out.println();
     	ReadInit readInit = new ReadInitConf();
     	readInit.readInit("./confinfo/DGraph.init", mDG);
+    	
+    	LinkedList<LinkedList<Edge<String>>> result = mDG.DFS_ALL_LOOP_Travel("1");
+        for (LinkedList<Edge<String>> linkedList : result) {
+			for (Edge<String> edge : linkedList) {
+				System.out.print(edge.getEventnum()+" ");
+			}
+			System.out.println();
+		}
     	/*
         Utils.log("===============test travelling=================");
         

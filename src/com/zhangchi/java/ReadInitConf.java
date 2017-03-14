@@ -27,12 +27,17 @@ public class ReadInitConf implements ReadInit{
 				}
 			}
 			//配置文件剩余的行是边信息（事件信息）
+			int count = 1;
 			while ((bufferline=bReader.readLine())!=null) {
+				if(bufferline.startsWith("#")){
+					continue;
+				}
 				String edge = bufferline.substring(0, bufferline.indexOf(":"));
 				String event = bufferline.substring(bufferline.indexOf(":")+1);
 				//解析字符串并生成edge对象
-				Edge<String> edgeobj = generateEdge(edge, event);
+				Edge<String> edgeobj = generateEdge(edge, event,count);
 				dGraph.add(edgeobj);
+				count++;
 			}
 			return true;
 			
@@ -60,7 +65,7 @@ public class ReadInitConf implements ReadInit{
 		return false;
 	}
 	
-	public Edge<String> generateEdge(String edge,String event){
+	public Edge<String> generateEdge(String edge,String event,int count){
 		Edge<String> edgeobj=null;
 		//状态编号解析
 		String[] vetx = edge.split("-");
@@ -106,7 +111,7 @@ public class ReadInitConf implements ReadInit{
 		//事件调用者；事件名；事件返回值；事件输入参数
 		TriggerEvent triggerEvent = new TriggerEvent(events[0], events[1], events[2], inputlist);
 		
-		edgeobj = new Edge<String>(vetx[0], vetx[1],triggerEvent);	
+		edgeobj = new Edge<String>(vetx[0], vetx[1], count,triggerEvent);	
 		
 		return edgeobj;
 	}
