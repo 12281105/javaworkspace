@@ -17,12 +17,23 @@ public class ReadInitCaseData {
 			StringBuffer stringBuffer = new StringBuffer();
 			
 			while ((bufferline=bReader.readLine())!=null) {
-				if (bufferline.startsWith("String")) {
-					stringBuffer.append(bufferline.replace('@', ' ')).append(";");
-					retCodeList.add(stringBuffer.toString());
+				stringBuffer.setLength(0);
+				if (bufferline.startsWith("String")) {    //String 类型
+					stringBuffer.append(bufferline.replace('@', ' ')).append(";\n");
+					codeList.add(stringBuffer.toString());
 				}
-				else if (bufferline.startsWith("Map")){
-					stringBuffer.append(bufferline.substring(0,bufferline.indexOf('@')))
+				else if (bufferline.startsWith("Map")){   //Map 类型
+					stringBuffer.append(bufferline.substring(0,bufferline.indexOf('=')+1).replace('@', ' '));
+					stringBuffer.append("new HashMap<>();\n");
+					String temp = bufferline.substring(bufferline.indexOf('=')+1).replace('{', '\0').replace('}', '\0').trim();
+					String[] strs = temp.split(",");
+					for (String string : strs) {
+						stringBuffer.append(bufferline.substring(bufferline.indexOf('@')+1,bufferline.indexOf('='))).append(".put(").append(string.replace(':', ',')).append(");\n");
+					}
+					codeList.add(stringBuffer.toString());
+				}
+				else{
+					
 				}
 			}
 			
