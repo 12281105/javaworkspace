@@ -46,7 +46,7 @@ public class ListDGraphTest {
         mDG.add(new Edge<String>("6", "7"));
         */
     	System.out.println();
-    	ReadInit readInit = new ReadInitConf();
+    	ReadInitConf readInit = new ReadInitConf();
     	readInit.readInit("./confinfo/DGraph.init", mDG);
     	
     	LinkedList<LinkedList<Edge<String>>> result = mDG.DFS_ALL_LOOP_Travel("1");

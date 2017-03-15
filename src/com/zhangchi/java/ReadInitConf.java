@@ -7,9 +7,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class ReadInitConf implements ReadInit{
+public class ReadInitConf{
 
-	@Override
 	public boolean readInit(String path,DGraph<String> dGraph){
 		// TODO Auto-generated method stub
 		FileReader fReader = null;
